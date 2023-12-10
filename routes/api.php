@@ -3,6 +3,7 @@
 use App\Http\Controllers\AchievementsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LessonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +36,6 @@ Route::group([
 Route::middleware('auth')->group(function () {
     Route::get('/users/{user}/achievements', [AchievementsController::class, 'index']);
     Route::post('/comments/create', [CommentController::class, 'create']);
+    Route::post('/lessons/{lessonId}/watch', [LessonController::class, 'watchLesson']);
 
 });
