@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\AchievementCommentType;
+use App\Models\AchievementLessonType;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class AchievementTypeSeeder extends Seeder
 {
@@ -30,34 +30,30 @@ class AchievementTypeSeeder extends Seeder
         ];
 
         foreach ($lessonAchievements as $name => $condition) {
-            $existingAchievement = DB::table('achievement_lesson_types')
-                ->where('name', $name)
+            $existingAchievement = AchievementLessonType::where('name', $name)
                 ->first();
 
             if (!$existingAchievement) {
-                DB::table('achievement_lesson_types')->insert(['name' => $name, 'condition' => $condition]);
+                AchievementLessonType::insert(['name' => $name, 'condition' => $condition]);
             } else {
                 if ($existingAchievement->condition != $condition) {
                     echo '* LessonType updated [' . $name . '], condition ' . $existingAchievement->condition . ' => ' . $condition . PHP_EOL;
-                    DB::table('achievement_lesson_types')
-                        ->where('name', $name)
+                    AchievementLessonType::where('name', $name)
                         ->update(['condition' => $condition,'updated_at' => now()]);
                 }
             }
         }
 
         foreach ($commentAchievements as $name => $condition) {
-            $existingAchievement = DB::table('achievement_comment_types')
-                ->where('name', $name)
+            $existingAchievement = AchievementCommentType::where('name', $name)
                 ->first();
 
             if (!$existingAchievement) {
-                DB::table('achievement_comment_types')->insert(['name' => $name, 'condition' => $condition]);
+                AchievementCommentType::insert(['name' => $name, 'condition' => $condition]);
             } else {
                 if ($existingAchievement->condition != $condition) {
                     echo '* CommentType updated [' . $name . '], condition ' . $existingAchievement->condition . ' => ' . $condition . PHP_EOL;
-                    DB::table('achievement_comment_types')
-                        ->where('name', $name)
+                    AchievementCommentType::where('name', $name)
                         ->update(['condition' => $condition,'updated_at' => now()]);
                 }
             }

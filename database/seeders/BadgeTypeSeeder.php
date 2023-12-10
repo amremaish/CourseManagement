@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\BadgeType;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class BadgeTypeSeeder extends Seeder
 {
@@ -21,17 +20,16 @@ class BadgeTypeSeeder extends Seeder
         ];
 
         foreach ($badgeAchievements as $name => $condition) {
-            $existingAchievement = DB::table('badge_types')
-                ->where('name', $name)
+            $existingAchievement = BadgeType::
+                where('name', $name)
                 ->first();
 
             if (!$existingAchievement) {
-                DB::table('badge_types')->insert(['name' => $name, 'condition' => $condition]);
+                BadgeType::insert(['name' => $name, 'condition' => $condition]);
             } else {
                 if ($existingAchievement->condition != $condition) {
                     echo '* Badge updated [' . $name . '], condition ' . $existingAchievement->condition . ' => ' . $condition . PHP_EOL;
-                    DB::table('badge_types')
-                        ->where('name', $name)
+                    BadgeType::where('name', $name)
                         ->update(['condition' => $condition,'updated_at' => now()]);
                 }
             }
