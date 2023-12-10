@@ -67,6 +67,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Lesson::class)->wherePivot('watched', true);
     }
+    public function achievements()
+    {
+        return $this->hasOne(Achievement::class);
+
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

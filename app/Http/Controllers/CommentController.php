@@ -12,7 +12,7 @@ class CommentController extends Controller
         try {
             $user = $request->user();
             $validatedData = $request->validated();
-            $comment = Comment::createForUser($validatedData['body'], $user);
+            $comment = Comment::create($validatedData['body'], $user);
 
             if ($comment) {
                 return response()->json(['message' => 'Comment added successfully'], 201);

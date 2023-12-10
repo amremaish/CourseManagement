@@ -21,7 +21,7 @@ class LessonController extends Controller
                 return response()->json(['message' => 'Lesson was already watched']);
             }
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getTraceAsString()], 500);
         }
     }
 }

@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AchievementTypeSeeder::class);
         $this->call(BadgeTypeSeeder::class);
-        DB::table('lessons')->truncate();
         $lessons = Lesson::factory()
             ->count(20)
             ->create();

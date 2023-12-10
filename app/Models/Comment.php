@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\CommentWritten;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Event;
 
 class Comment extends Model
 {
@@ -27,15 +29,17 @@ class Comment extends Model
      * @param User $user
      * @return Model
      */
-    public static function createForUser(string $body, User $user)
+    public static function create(string $body, User $user): ?Model
     {
+
         try {
             $comment = $user->comments()->create([
                 'body' => $body,
             ]);
+            Event::dispatch(new CommentWritten($user));
             return $comment;
         } catch (\Exception $e) {
-            // Log the exception or handle it accordingly
+            echo $e;
             return null;
         }
     }

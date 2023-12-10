@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Events\AchievementUnlocked;
+use App\Events\CommentWritten;
+use App\Events\LessonWatched;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Event;
 
 class Lesson extends Model
 {
@@ -16,23 +20,28 @@ class Lesson extends Model
      */
     public static function watchLesson($userId, $lessonId)
     {
-        self::findOrFail($lessonId);
+        $is_watched = false;
+        $user = User::findOrFail($userId);
         $lessonUser = LessonUser::where('user_id', $userId)
             ->where('lesson_id', $lessonId)
             ->first();
+
         if (!$lessonUser) {
-            LessonUser::create([
+            $lessonUser = LessonUser::create([
                 'user_id' => $userId,
                 'lesson_id' => $lessonId,
                 'watched' => true,
             ]);
-            return true;
+            $is_watched = true;
         }
         if (!$lessonUser->watched) {
             $lessonUser->update(['watched' => true]);
-            return true;
+            $is_watched = true;
         }
-        return false;
+        if ($is_watched) {
+            Event::dispatch(new LessonWatched($user));
+        }
+        return $is_watched;
 
     }
 
