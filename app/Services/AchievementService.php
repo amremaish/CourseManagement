@@ -43,7 +43,7 @@ class AchievementService
     public function saveNewWatchedLesson(User $user): void
     {
         // Retrieve or create achievements associated with the user
-        $achievements = $user->achievements ?? Achievement::create(['user_id' => $user->id]);
+        $achievements = $user->createAchievementIfNotExists();
 
         // Increment the count of watched lessons by the user
         $achievements->number_of_watched_lessons++;
@@ -84,9 +84,8 @@ class AchievementService
         $achievements->current_badge_id = $currentBadge->id;
         $achievements->next_badge_id = $nextBadge->id;
         $achievements->unlocked_achievements = $unlockedAchievements;
-        $achievements->remaining_to_unlock_next_badge = $nextBadge->condition - count($unlockedAchievements);
         $achievements->next_available_achievements = $nextAvailableAchievements;
-        echo $achievements;
+        $achievements->remaining_to_unlock_next_badge = $nextBadge->condition - count($unlockedAchievements);
         return $achievements->save();
     }
 
@@ -175,7 +174,7 @@ class AchievementService
                 if (end($unlockedAchievements) !== end($unlockedAchievementTemp)) {
                     Event::dispatch(new AchievementUnlocked(end($unlockedAchievements), $user));
                 }
-            }else {
+            } else {
                 Event::dispatch(new AchievementUnlocked(end($unlockedAchievements), $user));
             }
         }

@@ -44,6 +44,10 @@ class User extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
+    public function createAchievementIfNotExists()
+    {
+        return $this->achievements ?? Achievement::create(['user_id' => $this->id]);
+    }
     /**
      * The comments that belong to the user.
      */

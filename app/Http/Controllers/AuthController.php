@@ -92,6 +92,7 @@ class AuthController extends Controller
         ]);
 
         if ($user) {
+            $user->createAchievementIfNotExists();
             return response()->json(['message' => 'User registered successfully'], 201);
         } else {
             return response()->json(['error' => 'Failed to create user'], 500);
