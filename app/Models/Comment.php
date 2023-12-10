@@ -21,6 +21,26 @@ class Comment extends Model
     ];
 
     /**
+     * Create a comment for the given user.
+     *
+     * @param string $body
+     * @param User $user
+     * @return Model
+     */
+    public static function createForUser(string $body, User $user)
+    {
+        try {
+            $comment = $user->comments()->create([
+                'body' => $body,
+            ]);
+            return $comment;
+        } catch (\Exception $e) {
+            // Log the exception or handle it accordingly
+            return null;
+        }
+    }
+
+    /**
      * Get the user that wrote the comment.
      */
     public function user()
