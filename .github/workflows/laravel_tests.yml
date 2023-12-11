@@ -2,9 +2,9 @@ name: Laravel Tests
 
 on:
   push:
-    branches: [ main ] # Adjust branch name if needed
+    branches: [ master ]
   pull_request:
-    branches: [ main ] # Adjust branch name if needed
+    branches: [ master ]
 
 jobs:
   build:
@@ -27,6 +27,5 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
-
-      - name: Run tests with SQLite
+      - name: Run tests
         run: php artisan test
