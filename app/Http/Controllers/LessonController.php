@@ -10,9 +10,11 @@ class LessonController extends Controller
 {
     public function watchLesson(Request $request, $lessonId)
     {
+        if (Lesson::find($lessonId) == null){
+            return response()->json(['error' => 'Lesson is not found'], 500);
+        }
         try {
             $user = $request->user();
-
             $result = Lesson::watchLesson($user->id, $lessonId);
 
             if ($result) {
@@ -21,7 +23,7 @@ class LessonController extends Controller
                 return response()->json(['message' => 'Lesson was already watched']);
             }
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getTraceAsString()], 500);
+            return response()->json(['message' => 'Something went wrong. Please try again.'], 500);
         }
     }
 }

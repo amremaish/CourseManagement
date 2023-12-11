@@ -10,8 +10,7 @@ class AuthControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function successRegister()
+    public function testSuccessRegister()
     {
         $userData = [
             'name' => 'Amr',
@@ -25,8 +24,7 @@ class AuthControllerTest extends TestCase
 
     }
 
-    /** @test */
-    public function FailureRegisterValidation1()
+    public function testFailureRegisterValidation1()
     {
         $userData = [
             'name' => 'Amr',
@@ -40,8 +38,7 @@ class AuthControllerTest extends TestCase
             ]);
 
     }
-    /** @test */
-    public function FailureRegisterValidation2()
+    public function testFailureRegisterValidation2()
     {
         $userData = [
             'password' => 'password123',
@@ -57,9 +54,9 @@ class AuthControllerTest extends TestCase
     }
 
     /** @test */
-    public function successLogin()
+    public function testSuccessLogin()
     {
-        $this->successRegister();
+        $this->testSuccessRegister();
         $loginData = [
             'email' => 'test@example.com',
             'password' => 'password123',
@@ -79,9 +76,9 @@ class AuthControllerTest extends TestCase
     }
 
     /** @test */
-    public function FailureLogin()
+    public function testFailureLogin()
     {
-        $this->successRegister();
+        $this->testSuccessRegister();
         $loginData = [
             'email' => 'test123@example.com',
             'password' => 'password123',
@@ -92,9 +89,9 @@ class AuthControllerTest extends TestCase
             ->assertJson(['error' => 'Unauthorized']);
     }
     /** @test */
-    public function FailureLoginValidation()
+    public function testFailureLoginValidation()
     {
-        $this->successRegister();
+        $this->testSuccessRegister();
         $response = $this->postJson('/api/auth/login', []);
         echo $response->content();
         $response->assertStatus(401)
