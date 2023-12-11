@@ -19,6 +19,7 @@ class AuthControllerTest extends TestCase
         ];
 
         $response = $this->postJson('/api/auth/signup', $userData);
+        echo $response->getContent() . '\n';
         $response->assertStatus(201)
             ->assertJson(['message' => 'User registered successfully']);
 

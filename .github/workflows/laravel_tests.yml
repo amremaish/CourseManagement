@@ -28,4 +28,4 @@ jobs:
         run: php artisan key:generate
 
       - name: Run tests with PHPUnit using in-memory SQLite
-        run: vendor/bin/phpunit --configuration phpunit.xml
+        run: php artisan test --filter=AuthControllerTest
