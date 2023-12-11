@@ -27,5 +27,5 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
-      - name: Run tests with PHPUnit using in-memory SQLite
-        run: php artisan test --filter=AuthControllerTest
+      - name: Run tests
+        run: php artisan test
