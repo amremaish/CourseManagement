@@ -1,0 +1,32 @@
+name: Laravel Tests
+
+on:
+  push:
+    branches: [ main ] # Adjust branch name if needed
+  pull_request:
+    branches: [ main ] # Adjust branch name if needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --no-suggest
+
+      - name: Copy .env file
+        run: cp .env.example .env
+
+      - name: Generate application key
+        run: php artisan key:generate
+
+
+      - name: Run tests with SQLite
+        run: php artisan test
